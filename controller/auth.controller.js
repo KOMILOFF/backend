@@ -73,7 +73,6 @@ const login = async (req, res) => {
       { expiresIn: "7d" }
     );
 
-
     res.json({
       message: "Muvaffaqiyatli kirdingiz",
       token,
@@ -106,6 +105,7 @@ const getUserById = async (req, res) => {
           include: [
             {
               model: OrderItem,
+              as: "OrderItems", // 🚀 Mana bu yerda alias ('as') nomi qo'shildi!
               include: [Smartphone],
             },
           ],
@@ -121,7 +121,7 @@ const getUserById = async (req, res) => {
 
     res.status(200).json(user);
   } catch (err) {
-    console.log(err);
+    console.log("getUserById xatoligi:", err);
     res.status(500).json({ message: err.message });
   }
 };
