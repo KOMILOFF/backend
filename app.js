@@ -13,22 +13,13 @@ const Address = require("./models/adress.model");
 
 const app = express();
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://kxd-six.vercel.app"
-];
-
 app.use(cors({
-  origin: function (origin, callback) {
-
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("CORS siyosati tomonidan bloklandi"));
-    }
-  },
+  origin: "*",
   credentials: true
 }));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 User.hasOne(Profile, { foreignKey: "userId", onDelete: "CASCADE" });
 Profile.belongsTo(User, { foreignKey: "userId" });
@@ -66,7 +57,7 @@ app.use("/api/reviews", require("./routes/review.route"));
 app.use("/api/search", require("./routes/search.route"));
 app.use("/api/addresses", require("./routes/adress.route"));
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 10000;
 
 sequelize.sync({ force: false }).then(() => { 
   app.listen(PORT, () => {
